@@ -10,11 +10,12 @@ api = Api(application,
 
 lat_lon_model = api.model('LatLonModel', {
     'latitude' : fields.String,
-    'longitude' : fields.String
+    'longitude' : fields.String,
+    'coordinateDatumCode' : fields.String,
 })
 decimal_lat_lon_model = api.model('DecimalLatLonModel', {
-    'latitude' : fields.Float,
-    'longitude' : fields.Float
+    'decimalLatitude' : fields.Float,
+    'decimalLongitude' : fields.Float
 })
 station_name_model = api.model('StationNameModel', {
     'stationName' : fields.String

@@ -102,3 +102,6 @@ ENV/
 
 # idea files
 .idea
+
+#local files
+root.crt

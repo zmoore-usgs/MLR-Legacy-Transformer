@@ -1,4 +1,6 @@
 # MLR-Legacy-Transformer
+[![Build Status](https://travis-ci.org/USGS-CIDA/MLR-Legacy-Transformer.svg?branch=master)](https://travis-ci.org/USGS-CIDA/MLR-Legacy-Transformer)
+[![Coverage Status](https://coveralls.io/repos/github/USGS-CIDA/MLR-Legacy-Transformer/badge.svg)](https://coveralls.io/github/USGS-CIDA/MLR-Legacy-Transformer)
 Provides services to transform legacy data fields
 
 This project has been built and tested with python 3.6.x. To build the project locally you will need

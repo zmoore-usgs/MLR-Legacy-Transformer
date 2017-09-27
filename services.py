@@ -44,9 +44,10 @@ class StationIx(Resource):
     @api.expect(station_name_model)
     def post(self):
         try:
-            station_name = request.get_json().get('stationName')
+            station_name = request.get_json()['stationName']
         except KeyError:
             response, status = 'Missing stationName key', 400
         else:
             station_ix = re.sub('\s|[^a-zA-Z0-9]', '', station_name)
-        return {'stationIx' : station_ix.upper()}, 200
+            response, status = {'stationIx' : station_ix.upper()}, 200
+        return response, status

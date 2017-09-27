@@ -1,7 +1,8 @@
 
 from unittest import TestCase
 
-from utils import transform_to_decimal_degrees, transform_latitude_to_decimal_degrees, transform_longitude_to_decimal_degrees
+from utils import transform_to_decimal_degrees, transform_latitude_to_decimal_degrees, \
+    transform_longitude_to_decimal_degrees, transform_location_to_decimal_location
 
 class TestTransformToDecimalDegrees(TestCase):
 
@@ -44,3 +45,21 @@ class TestTransformLongitudeToDecimalDegrees(TestCase):
     def test_with_negative_latitude(self):
         self.assertAlmostEqual(transform_longitude_to_decimal_degrees('-0974312'), 97.72, 2)
         self.assertAlmostEqual(transform_longitude_to_decimal_degrees('-1234349'), 123.73027778, 8)
+
+
+class TestTransformLocationTo_DecimalLocation(TestCase):
+
+    def test_with_unconvertable_datum(self):
+        self.assertEqual(transform_location_to_decimal_location(' 374312    ', '-1234349    ', 'WGS84     '),
+                         {'decimalLatitude' : None, 'decimalLongitude': None})
+
+    def test_with_nad83_datum(self):
+        result = transform_location_to_decimal_location(' 374312    ', ' 1234349    ', 'NAD83     ')
+        self.assertAlmostEqual(result.get('decimalLatitude'), 37.72, 5)
+        self.assertAlmostEqual(result.get('decimalLongitude'), -123.73027778, 8)
+
+    def test_with_nad27_datum(self):
+        result = transform_location_to_decimal_location(' 383009    ', ' 0814256    ', 'NAD27     ')
+        self.assertAlmostEqual(result.get('decimalLatitude'), 38.5025922044846, 8)
+        self.assertAlmostEqual(result.get('decimalLongitude'), -81.7154066249968, 8)
+

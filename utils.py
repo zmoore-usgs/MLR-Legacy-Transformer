@@ -2,7 +2,6 @@ from pyproj import Proj, transform
 
 nad83_proj = Proj('+init=EPSG:4269')
 nad27_proj = Proj('+init=EPSG:4267')
-oldhi_proj = Proj('+init=EPSG:3565')
 
 DATUM_TO_PROJ = {
     'NAD83     ' : nad83_proj,

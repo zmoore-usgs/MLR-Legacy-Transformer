@@ -14,22 +14,30 @@ def transform_to_decimal_degrees(degrees, minutes, seconds):
     return abs_result if fdegrees > 0 else -abs_result
 
 def transform_latitude_to_decimal_degrees(angle):
-    return transform_to_decimal_degrees(angle[0:3], angle[3:5], angle[5:])
+    result = transform_to_decimal_degrees(angle[0:3], angle[3:5], angle[5:])
+    if result > 90.0 or result < -90.0:
+        raise ValueError
+    return result
 
 def transform_longitude_to_decimal_degrees(angle):
-    return -transform_to_decimal_degrees(angle[0:4], angle[4:6], angle[6:])
+    result = -transform_to_decimal_degrees(angle[0:4], angle[4:6], angle[6:])
+    if result > 180.0 or result < -180.0:
+        raise ValueError
+    return result
 
 def transform_location_to_decimal_location(latitude, longitude, coord_datum):
     if coord_datum in DATUM_TO_PROJ:
-        dlat = transform_latitude_to_decimal_degrees(latitude)
-        dlon = transform_longitude_to_decimal_degrees(longitude)
-
-        if coord_datum != 'NAD83     ':
-            dlon, dlat = transform(DATUM_TO_PROJ[coord_datum], nad83_proj, dlon, dlat)
+        try:
+            dlat = transform_latitude_to_decimal_degrees(latitude)
+            dlon = transform_longitude_to_decimal_degrees(longitude)
+        except ValueError:
+            dlat, dlon = None, None
+        else:
+            if coord_datum != 'NAD83     ':
+                dlon, dlat = transform(DATUM_TO_PROJ[coord_datum], nad83_proj, dlon, dlat)
 
     else:
-        dlat = None
-        dlon = None
+        dlat, dlon = None, None
 
     return {
         'decimalLatitude' : dlat,

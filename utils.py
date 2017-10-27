@@ -4,8 +4,8 @@ nad83_proj = Proj('+init=EPSG:4269')
 nad27_proj = Proj('+init=EPSG:4267')
 
 DATUM_TO_PROJ = {
-    'NAD83     ' : nad83_proj,
-    'NAD27     ' : nad27_proj,
+    'NAD83' : nad83_proj,
+    'NAD27' : nad27_proj,
 }
 
 def transform_to_decimal_degrees(degrees, minutes, seconds):
@@ -26,15 +26,16 @@ def transform_longitude_to_decimal_degrees(angle):
     return result
 
 def transform_location_to_decimal_location(latitude, longitude, coord_datum):
-    if coord_datum in DATUM_TO_PROJ:
+    datum = coord_datum.rstrip()
+    if datum in DATUM_TO_PROJ:
         try:
             dlat = transform_latitude_to_decimal_degrees(latitude)
             dlon = transform_longitude_to_decimal_degrees(longitude)
         except ValueError:
             dlat, dlon = None, None
         else:
-            if coord_datum != 'NAD83     ':
-                dlon, dlat = transform(DATUM_TO_PROJ[coord_datum], nad83_proj, dlon, dlat)
+            if datum != 'NAD83':
+                dlon, dlat = transform(DATUM_TO_PROJ[datum], nad83_proj, dlon, dlat)
 
     else:
         dlat, dlon = None, None

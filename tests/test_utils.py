@@ -66,8 +66,16 @@ class TestTransformLocationTo_DecimalLocation(TestCase):
         self.assertAlmostEqual(result.get('decimalLatitude'), 37.72, 5)
         self.assertAlmostEqual(result.get('decimalLongitude'), -123.73027778, 8)
 
+        result = transform_location_to_decimal_location(' 374312    ', ' 1234349    ', 'NAD83')
+        self.assertAlmostEqual(result.get('decimalLatitude'), 37.72, 5)
+        self.assertAlmostEqual(result.get('decimalLongitude'), -123.73027778, 8)
+
     def test_with_nad27_datum(self):
         result = transform_location_to_decimal_location(' 383009    ', ' 0814256    ', 'NAD27     ')
+        self.assertAlmostEqual(result.get('decimalLatitude'), 38.5025922044846, 8)
+        self.assertAlmostEqual(result.get('decimalLongitude'), -81.7154066249968, 8)
+
+        result = transform_location_to_decimal_location(' 383009    ', ' 0814256    ', 'NAD27')
         self.assertAlmostEqual(result.get('decimalLatitude'), 38.5025922044846, 8)
         self.assertAlmostEqual(result.get('decimalLongitude'), -81.7154066249968, 8)
 

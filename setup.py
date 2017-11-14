@@ -40,5 +40,5 @@ setup(name='usgs_wma_mlr_legacy_transformer',
       test_loader='unittest:TestLoader',
       platforms='any',
       zip_safe=False,
-      py_modules=['app', 'config', 'services', 'utils', 'flask_restful_jwt']
+      py_modules=['app', 'config', 'services', 'utils', 'flask_restplus_jwt']
       )

@@ -7,13 +7,28 @@ from flask_restplus import Api, Resource, fields
 from werkzeug.exceptions import BadRequest
 
 from app import application
+from flask_restplus_jwt import JWTRestplusManager, jwt_required
 from utils import transform_location_to_decimal_location
+
+# This will add the Authorize button to the swagger docs
+authorizations = {
+    'apikey': {
+        'type': 'apiKey',
+        'in': 'header',
+        'name': 'Authorization'
+    }
+}
 
 api = Api(application,
           title='MLR Legacy Transformer',
           description='Provides services which transform MLR legacy fields',
           default='Transformer',
-          doc='/api')
+          doc='/api',
+          authorizations=authorizations
+          )
+
+# Setup the Flask-JWT-Simple extension
+jwt = JWTRestplusManager(api, application)
 
 lat_lon_model = api.model('LatLonModel', {
     'latitude': fields.String,
@@ -52,7 +67,10 @@ class DecimalLocation(Resource):
 
     @api.response(200, 'Successful', decimal_lat_lon_model)
     @api.response(400, 'Missing keys')
+    @api.response(401, 'Not authorized')
+    @api.doc(security='apikey')
     @api.expect(lat_lon_model)
+    @jwt_required
     def post(self):
         request_body = request.get_json()
         _handle_missing_keys(request_body, expected_lat_lon_model_keys)
@@ -66,7 +84,10 @@ class StationIx(Resource):
 
     @api.response(200, 'Successful', station_ix_model)
     @api.response(400, "Missing keys:")
+    @api.response(401, 'Not authorized')
+    @api.doc(security='apikey')
     @api.expect(station_name_model)
+    @jwt_required
     def post(self):
         request_body = request.get_json()
         _handle_missing_keys(request_body, expected_station_name_model_keys)

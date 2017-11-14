@@ -68,6 +68,11 @@ class DecimalLocationTestCase(TestCase):
 class StationIxTestCase(TestCase):
 
     def setUp(self):
+        app.application.config['JWT_SECRET_KEY'] = 'secret'
+        app.application.config['JWT_PUBLIC_KEY'] = None
+        app.application.config['JWT_ALGORITHM'] = 'HS256'
+        app.application.config['AUTH_TOKEN_KEY_URL'] = ''
+        app.application.config['JWT_DECODE_AUDIENCE'] = None
         app.application.testing = True
         self.app_client = app.application.test_client()
 

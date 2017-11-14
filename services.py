@@ -24,7 +24,6 @@ api = Api(application,
           description='Provides services which transform MLR legacy fields',
           default='Transformer',
           doc='/api',
-          security='apiKey',
           authorizations=authorizations
           )
 
@@ -68,6 +67,8 @@ class DecimalLocation(Resource):
 
     @api.response(200, 'Successful', decimal_lat_lon_model)
     @api.response(400, 'Missing keys')
+    @api.response(401, 'Not authorized')
+    @api.doc(security='apikey')
     @api.expect(lat_lon_model)
     @jwt_required
     def post(self):
@@ -83,6 +84,8 @@ class StationIx(Resource):
 
     @api.response(200, 'Successful', station_ix_model)
     @api.response(400, "Missing keys:")
+    @api.response(401, 'Not authorized')
+    @api.doc(security='apikey')
     @api.expect(station_name_model)
     @jwt_required
     def post(self):

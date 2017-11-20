@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [0.4.0] - 2017-11-20
+## [0.5.0] - 2017-11-20
 ### Added
 - GET endpoint /version to show the current version and artifact name
 - Authentication for /transformer/decimal_location and transformer/station_ix endpoints

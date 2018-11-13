@@ -74,9 +74,18 @@ class DecimalLocation(Resource):
     def post(self):
         request_body = request.get_json()
         _handle_missing_keys(request_body, expected_lat_lon_model_keys)
-        return transform_location_to_decimal_location(request_body.get('latitude'),
-                                                      request_body.get('longitude'),
-                                                      request_body.get('coordinateDatumCode'))
+
+        transformed_attributes = transform_location_to_decimal_location(
+            request_body.get('latitude'),
+            request_body.get('longitude'),
+            request_body.get('coordinateDatumCode')
+        )
+
+        merged_attributes = {
+            **request_body,
+            **transformed_attributes
+        }
+        return merged_attributes, 200
 
 
 @api.route('/transformer/station_ix')
@@ -92,7 +101,12 @@ class StationIx(Resource):
         request_body = request.get_json()
         _handle_missing_keys(request_body, expected_station_name_model_keys)
         station_ix = re.sub('\s|[^a-zA-Z0-9]', '', request_body.get('stationName'))
-        return {'stationIx': station_ix.upper()}, 200
+        transformed_attributes = {'stationIx': station_ix.upper()}
+        merged_attributes = {
+            **request_body,
+            **transformed_attributes
+        }
+        return merged_attributes, 200
 
 
 version_model = api.model('VersionModel', {

@@ -6,9 +6,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-### Change
-- cschroedl@usgs.gov - made services return all passed-in attributes instead of swallowing them.
-
 ### Updated
 - isuftin@usgs.gov - Updated the version constraint for pyca/cryptography due to
 CVE https://nvd.nist.gov/vuln/detail/CVE-2018-10903

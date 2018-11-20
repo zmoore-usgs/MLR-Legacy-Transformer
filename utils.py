@@ -34,7 +34,7 @@ def transform_location_to_decimal_location(latitude, longitude, coord_datum):
             dlon = transform_longitude_to_decimal_degrees(longitude)
         except ValueError as err:
             dlat, dlon = None, None
-            application.logger.error("An error occurred while transforming lat/lon to decimal degrees: "
+            application.logger.warning("An error occurred while transforming lat/lon to decimal degrees: "
                 + str(err))
         else:
             if datum != 'NAD83':

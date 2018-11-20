@@ -106,3 +106,4 @@ ENV/
 #local files
 root.crt
 /.project
+.vscode/

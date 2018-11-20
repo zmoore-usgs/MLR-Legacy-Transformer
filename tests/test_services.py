@@ -22,22 +22,15 @@ class DecimalLocationTestCase(TestCase):
     def test_good_request(self, mock):
         good_token = jwt.encode({'authorities': ['one_role', 'two_role']}, 'secret')
         mock.return_value = {'decimalLatitude' : 40, 'decimalLongitude': -100}
-        input = {
-            'latitude': ' 400000    ',
-            'longitude': ' 1000000    ',
-            'coordinateDatumCode': 'NAD27      ',
-        }
         response = self.app_client.post('/transformer/decimal_location',
                                         content_type='application/json',
                                         headers={'Authorization': 'Bearer {0}'.format(good_token.decode('utf-8'))},
-                                        data=json.dumps(input))
+                                        data=json.dumps({
+                                            'latitude': ' 400000    ',
+                                            'longitude' : ' 1000000    ',
+                                            'coordinateDatumCode' : 'NAD27      '}))
         self.assertEqual(response.status_code, 200)
-        expected = {
-            **input,
-            'decimalLatitude': 40,
-            'decimalLongitude': -100,
-        }
-        self.assertEqual(expected, json.loads(response.data))
+        self.assertEqual(json.loads(response.data), {'decimalLatitude' : 40, 'decimalLongitude': -100})
 
     def test_missing_keys(self, mock):
         good_token = jwt.encode({'authorities': ['one_role', 'two_role']}, 'secret')
@@ -85,31 +78,21 @@ class StationIxTestCase(TestCase):
 
     def test_station_name_with_whitespace(self):
         good_token = jwt.encode({'authorities': ['one_role', 'two_role']}, 'secret')
-        input = {"stationName": "Station Name"}
         response = self.app_client.post('/transformer/station_ix',
                                         content_type='application/json',
                                         headers={'Authorization': 'Bearer {0}'.format(good_token.decode('utf-8'))},
-                                        data=json.dumps(input))
+                                        data='{"stationName": "Station Name"}')
         self.assertEqual(response.status_code, 200)
-        expected = {
-            **input,
-            'stationIx': 'STATIONNAME',
-        }
-        self.assertEqual(json.loads(response.data), expected)
+        self.assertEqual(json.loads(response.data), {'stationIx': 'STATIONNAME'})
 
     def test_station_name_with_nonalphanumerics(self):
         good_token = jwt.encode({'authorities': ['one_role', 'two_role']}, 'secret')
-        input = {"stationName": "Station#_Name1$"}
         response = self.app_client.post('/transformer/station_ix',
                                         content_type='application/json',
                                         headers={'Authorization': 'Bearer {0}'.format(good_token.decode('utf-8'))},
-                                        data=json.dumps(input))
+                                        data='{"stationName": "Station#_Name1$"}')
         self.assertEqual(response.status_code, 200)
-        expected = {
-            **input,
-            'stationIx': 'STATIONNAME1',
-        }
-        self.assertEqual(expected, json.loads(response.data))
+        self.assertEqual(json.loads(response.data), {'stationIx': 'STATIONNAME1'})
 
     def test_invalid_request_payload(self):
         good_token = jwt.encode({'authorities': ['one_role', 'two_role']}, 'secret')

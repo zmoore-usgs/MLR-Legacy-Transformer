@@ -45,6 +45,9 @@ station_name_model = api.model('StationNameModel', {
 station_ix_model = api.model('StationIxModel', {
     'stationIx': fields.String
 })
+error_model = api.model('ErrorModel', {
+    'error_message': fields.String(required=True)
+})
 
 expected_lat_lon_model_keys = set(iter(lat_lon_model.keys()))
 expected_station_name_model_keys = set(iter(station_name_model.keys()))
@@ -66,33 +69,52 @@ def _handle_missing_keys(json_data, expected_keys):
 class DecimalLocation(Resource):
 
     @api.response(200, 'Successful', decimal_lat_lon_model)
-    @api.response(400, 'Missing keys')
-    @api.response(401, 'Not authorized')
+    @api.response(400, 'Missing keys', error_model)
+    @api.response(500, 'Transformeration failed.', error_model)
+    @api.response(401, 'Not authorized or token expired', error_model)
+    @api.response(422, 'Invalid JWT Token', error_model)
     @api.doc(security='apikey')
     @api.expect(lat_lon_model)
     @jwt_required
     def post(self):
         request_body = request.get_json()
-        _handle_missing_keys(request_body, expected_lat_lon_model_keys)
-        return transform_location_to_decimal_location(request_body.get('latitude'),
-                                                      request_body.get('longitude'),
-                                                      request_body.get('coordinateDatumCode'))
+        try:
+            _handle_missing_keys(request_body, expected_lat_lon_model_keys)
+            decimal_location = transform_location_to_decimal_location(
+                request_body.get('latitude'),
+                request_body.get('longitude'),
+                request_body.get('coordinateDatumCode')
+            )
+        except BadRequest as err:
+            response, status = {'error_message': err.description}, 400
+        else:
+            response, status = decimal_location, 200
+
+        return response, status 
 
 
 @api.route('/transformer/station_ix')
 class StationIx(Resource):
 
     @api.response(200, 'Successful', station_ix_model)
-    @api.response(400, "Missing keys:")
-    @api.response(401, 'Not authorized')
+    @api.response(400, "Missing keys:", error_model)
+    @api.response(500, 'Transformeration failed.', error_model)
+    @api.response(401, 'Not authorized or token expired', error_model)
+    @api.response(422, 'Invalid JWT Token', error_model)
     @api.doc(security='apikey')
     @api.expect(station_name_model)
     @jwt_required
     def post(self):
         request_body = request.get_json()
-        _handle_missing_keys(request_body, expected_station_name_model_keys)
-        station_ix = re.sub('\s|[^a-zA-Z0-9]', '', request_body.get('stationName'))
-        return {'stationIx': station_ix.upper()}, 200
+        try:
+            _handle_missing_keys(request_body, expected_station_name_model_keys)
+            station_ix = re.sub('\s|[^a-zA-Z0-9]', '', request_body.get('stationName'))
+        except BadRequest as err:
+            response, status = {'error_message': err.description}, 400
+        else:
+            response,status = {'stationIx': station_ix.upper()}, 200
+
+        return response, status
 
 
 version_model = api.model('VersionModel', {
@@ -119,3 +141,8 @@ class Version(Resource):
                 "artifact": distribution.project_name
             }
         return resp
+
+@api.errorhandler
+def default_error_handler(error):
+    '''Default error handler'''
+    return {'error_message': str(error)}, getattr(error, 'code', 500)

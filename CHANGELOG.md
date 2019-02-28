@@ -4,8 +4,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.9.0] - 2019-03-01
+## Changed
+- Standardized error response format.
 
+## [0.8.0] - 2019-01-31
+## Changed
+- update `Flask` to 0.12.3
+- update `urllib3`  to 1.23
+
+## [0.7.0] - 2018-11-27
+## Added
+- warn logging for lat/lon transformation errors.
+
+## Changed
+- Update `requests` to 2.20.0
+
+## [0.6.0] - 2018-08-23
 ### Updated
 - isuftin@usgs.gov - Updated the version constraint for pyca/cryptography due to
 CVE https://nvd.nist.gov/vuln/detail/CVE-2018-10903
@@ -39,7 +54,11 @@ decimalLatitude and decimalLongitude. Values will be null if invalid latitude, l
 - POST endpoint /transformer/station_ix takes a json object containing string station name and responds with stationIx.
 - Swagger documention endpoint /api
 
-[Unreleased]: https://github.com/USGS-CIDA/MLR-Legacy-Transformer/compare/MLR-Legacy-Transformer-0.5.0...master
+[Unreleased]: https://github.com/USGS-CIDA/MLR-Legacy-Transformer/compare/MLR-Legacy-Transformer-0.9.0...master
+[0.9.0]: https://github.com/USGS-CIDA/MLR-Legacy-Transformer/compare/MLR-Legacy-Transformer-0.8.0...MLR-Legacy-Transformer-0.9.0
+[0.8.0]: https://github.com/USGS-CIDA/MLR-Legacy-Transformer/compare/MLR-Legacy-Transformer-0.7.0...MLR-Legacy-Transformer-0.8.0
+[0.7.0]: https://github.com/USGS-CIDA/MLR-Legacy-Transformer/compare/MLR-Legacy-Transformer-0.6.0...MLR-Legacy-Transformer-0.7.0
+[0.6.0]: https://github.com/USGS-CIDA/MLR-Legacy-Transformer/compare/MLR-Legacy-Transformer-0.5.0...MLR-Legacy-Transformer-0.6.0
 [0.5.0]: https://github.com/USGS-CIDA/MLR-Legacy-Transformer/compare/MLR-Legacy-Transformer-0.4.0...MLR-Legacy-Transformer-0.5.0
 [0.4.0]: https://github.com/USGS-CIDA/MLR-Legacy-Transformer/compare/MLR-Legacy-Transformer-0.3.0...MLR-Legacy-Transformer-0.4.0
 [0.3.0]: https://github.com/USGS-CIDA/MLR-Legacy-Transformer/compare/MLR-Legacy-Transformer-0.2.0...MLR-Legacy-Transformer-0.3.0

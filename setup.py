@@ -30,7 +30,7 @@ def read(filepath):
 requirements = read_requirements('requirements.txt')
 
 setup(name='usgs_wma_mlr_legacy_transformer',
-      version='0.9.0',
+      version='0.10.0dev',
       description='MLR Legacy Transformer Microservice',
       author='Mary Bucknell, Andrew Yan, Dave Steinich, Zack Moore, Kathy Schoephoester',
       author_email='mlr-devs@usgs.gov',

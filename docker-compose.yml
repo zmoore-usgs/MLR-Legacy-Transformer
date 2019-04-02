@@ -1,0 +1,26 @@
+---
+  version: '3.7'
+      
+  services:
+    mlr-legacy-transformer:
+      build: .
+      image: mlr-legacy-transformer
+      ports:
+        - "6020:6020"
+      volumes: 
+        - ./docker/certificates/import_certs:/home/python/certificates:ro
+      env_file:
+        - ./docker/config.env
+        - ./docker/secrets.env
+    
+    mlr-legacy-transformer-local-dev:
+      build: .
+      image: mlr-legacy-transformer
+      network_mode: "host"
+      ports:
+        - "6020:6020"
+      volumes: 
+        - ./docker/certificates/import_certs:/home/python/certificates:ro
+      env_file:
+        - ./docker/config.env
+        - ./docker/secrets.env

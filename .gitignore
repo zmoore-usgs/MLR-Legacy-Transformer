@@ -107,3 +107,11 @@ ENV/
 root.crt
 /.project
 .vscode/
+
+# certificates
+**/*.jks
+**/*.p12
+**/*.crt
+**/*.csr
+**/*.chain
+**/*.key

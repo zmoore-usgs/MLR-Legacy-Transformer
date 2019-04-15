@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.10.0] - 2019-04-12 - End of Pilot
 ### Added
 - Docker configuration
 
@@ -61,7 +63,8 @@ decimalLatitude and decimalLongitude. Values will be null if invalid latitude, l
 - POST endpoint /transformer/station_ix takes a json object containing string station name and responds with stationIx.
 - Swagger documention endpoint /api
 
-[Unreleased]: https://github.com/USGS-CIDA/MLR-Legacy-Transformer/compare/MLR-Legacy-Transformer-0.9.0...master
+[Unreleased]: https://github.com/USGS-CIDA/MLR-Legacy-Transformer/compare/MLR-Legacy-Transformer-0.10.0...master
+[0.10.0]: https://github.com/USGS-CIDA/MLR-Legacy-Transformer/compare/MLR-Legacy-Transformer-0.9.0...MLR-Legacy-Transformer-0.10.0
 [0.9.0]: https://github.com/USGS-CIDA/MLR-Legacy-Transformer/compare/MLR-Legacy-Transformer-0.8.0...MLR-Legacy-Transformer-0.9.0
 [0.8.0]: https://github.com/USGS-CIDA/MLR-Legacy-Transformer/compare/MLR-Legacy-Transformer-0.7.0...MLR-Legacy-Transformer-0.8.0
 [0.7.0]: https://github.com/USGS-CIDA/MLR-Legacy-Transformer/compare/MLR-Legacy-Transformer-0.6.0...MLR-Legacy-Transformer-0.7.0

@@ -2,7 +2,20 @@
 [![Build Status](https://travis-ci.org/USGS-CIDA/MLR-Legacy-Transformer.svg?branch=master)](https://travis-ci.org/USGS-CIDA/MLR-Legacy-Transformer)
 [![Coverage Status](https://coveralls.io/repos/github/USGS-CIDA/MLR-Legacy-Transformer/badge.svg)](https://coveralls.io/github/USGS-CIDA/MLR-Legacy-Transformer)
 
-Provides services to transform legacy data fields
+## Service Description
+This service is part of the MLR microservices and is responsible for performing various data transformations that must happen to an incoming location before that location is persisted in the database. Due to the way that DDot files are produced there are several pieces of data transmitted in the DDot file that are not necessarily in the proper format to be directly persisted into the Database. There are various software tools that are responsible for creating DDot files and all of them are older and not regularly maintained so making changes to each of them to perform these transformations was not an option. As a result, this service was created to be a catch-all for any transformations that we would have to make to incoming data (not all transformations were known when this srevice was created). As things went on it turned out that there were only two minor transformations that had to be done to DDot files, and as such this service is now being considered for removal and having the transformation logic performed in the Gateway or another service.
+
+Currently the service performs the following two transformations:
+
+1. Converting the raw station name into a normalized station name. This transformation removes certain special characters from the raw station name and normalizes the format and casing. This allows us to limit the number of inexact-duplicate station names in the database and ensure that we keep station names unique.
+
+2. Converting the format of the Latitude and Longitude station coordinates to a decimal format. The database, and downstream applications which read from it, expects to store these coordinates in a decimal format but the DDot creation tools output these in a degree-minute-second format.
+
+These transformations must occur before the duplicate validation performed by the Legacy CRU service as the normalized station name is not sent in with DDot file and it is used for that validation process.
+
+The API methods for these transformations including expected inputs and result outputs can be examined in more detail in the Swagger API documentation for this service.
+
+## Building and Running
 
 This project has been built and tested with python 3.6.x. To build the project locally you will need
 python 3 and virtualenv installed.
